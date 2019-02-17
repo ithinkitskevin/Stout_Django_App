@@ -1,0 +1,145 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+body {
+    width: 100%;
+    background: whitesmoke;
+}
+
+.navbar-inverse { 
+  margin : 0;
+  padding: 0;
+  width: 100%;
+}
+
+.navbar-brand{
+    cursor: pointer;
+}
+
+.myform {
+    background: whitesmoke;
+    width: 0vw;
+    height: 5vh;
+}
+
+.myform input{
+    background: white;
+    width: 20vw;
+    height: 6vh;
+    margin: 10px;
+}
+
+.myform p{
+    color: black;
+    font-size: 20px;
+    font-family: 'Lora', serif;
+
+
+}
+
+
+h1 p
+{
+ text-align:center;
+ margin:0px;
+ font-size:18px;
+ text-decoration:underline;
+ color:white;
+}
+#main_content li
+{
+ display:inline;
+ list-style-type:none;
+ background-color:#688A08;
+ padding:10px;
+ border-radius:5px 5px 0px 0px;
+ color:#292A0A;
+ font-weight:bold;
+ cursor:pointer;
+}
+#main_content li.notselected
+{
+ background-color:#688A08;
+ color:#292A0A;	
+}
+#main_content li.selected
+{
+ background-color:#D0F5A9;
+ color:#292A0A;	
+}
+#main_content .hidden_desc
+{
+ display:none;
+ visibility:hidden;
+}
+#main_content #page_content
+{
+ background-color:#D0F5A9;
+ padding:10px;
+ margin-top:9px;
+ border-radius:0px 5px 5px 5px;
+ color:#2E2E2E;
+ line-height: 1.6em;
+ word-spacing:4px;
+}
+
+.container-fluid.search{
+    padding-top: 0vh;
+    padding-bottom: 5vh;
+}
+
+#graphs{
+    background-color: whitesmoke;
+    padding-top: 0vh;
+    padding-bottom: 5vh;
+
+}
+.barform{
+    position: relative;
+    padding-top: 0vh;
+    padding-bottom: 2vh;
+}
+.barinput{
+    background: white;
+    font-size: 1em;
+    width: 22vw;
+    height: 34px;
+}
+.searchbar{
+    padding-top: 2vh;
+}
+.row.barTitle{
+    padding-top: 0vh;
+    padding-bottom: 2vh;
+}
+.time{
+    padding-top: 2vh;
+}
+img{
+    position:relative;
+    display: inline-block;
+}
+.navBeer{
+    margin-top: 8px;
+    margin-left: 0px;
+    width: 34px ;
+    float: left;
+}
+.navbar-brand{
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2em;
+}
+.navbar-form{
+}
+.form-group{
+    margin-right: 3vh;
+}
+
+td {
+    cursor: pointer;}
+
+.selected {
+    background-color: brown;
+    color: #FFF;
+}

@@ -1,0 +1,156 @@
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+<link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/modStyle.css' %}" />
+<html>
+   <head>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Permanent+Marker|Spicy+Rice" rel="stylesheet">
+
+      <title>Modification Page Title</title>
+   </head>
+   <body>
+        <nav class = "navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <img src="{% static 'images/beer.png' %}" class="navBeer"">
+                    <a class = "navbar-brand">Stouts</a>
+                </div>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    <li><a href = '{% url "barView" %}'>Bar</a></li>
+                    <li><a href = '{% url "beerView" %}'>Beer</a></li>
+                    <li><a href = '{% url "drinkerView" %}'>Drinker</a></li>
+                    <li><a href = '{% url "modView" %}'>Modification</a></li>
+                    <li><a href = '{% url "queryView" %}'>Query</a></li>
+                </ul>
+            </nav>
+      <div class="blog-card">
+         <div class="meta">
+            <form method = "post">
+               {% csrf_token %}
+               <p>{{ drinker.as_p }}</p>
+               <button type="submit">Submit</button>
+            </form>
+         </div>
+         <div class="description">
+            <h1>Drinkers</h1>
+            <h2>Drinkers[<b>d_id</b>, first_name, last_name, phone_number, street, city, state, zip]</h2>
+            <p> {{ query_result_drinker }}</p>
+         </div>
+      </div>
+      <div class="blog-card alt">
+         <div class="meta">
+            <form method = "post">
+               {% csrf_token %}
+               <p>{{ transaction.as_p }}</p>
+               <button type="submit">Submit</button>
+            </form>
+         </div>
+         <div class="description">
+            <h1>Transactions</h1>
+            <h2>Transactions[<b>t_id</b>, date, time, weekday, total_price, tip, d_id, license]</h2>
+            <p> {{ query_result_transaction }}</p>
+         </div>
+      </div>
+      <div class="blog-card">
+         <div class="meta">
+            <form method = "post">
+               {% csrf_token %}
+               <p>{{ bar.as_p }}</p>
+               <button type="submit">Submit</button>
+            </form>
+         </div>
+         <div class="description">
+            <h1>Bars</h1>
+            <h2>Bars[name, <b>license</b>, phone_number, street, city, state, zip]</h2>
+            <p> {{ query_result_bar }}</p>
+         </div>
+      </div>
+      <div class="blog-card alt">
+         <div class="meta">
+            <form method = "post">
+               {% csrf_token %}
+               <p>{{ frequent.as_p }}</p>
+               <button type="submit">Submit</button>
+            </form>
+         </div>
+         <div class="description">
+            <h1>Frequents</h1>
+            <h2>Frequents[<b>drinker</b>, <b>bar</b>]</h2>
+            <p> {{ query_result_frequent }}</p>
+         </div>
+      </div>
+      <div class="blog-card">
+         <div class="meta">
+            <form method = "post">
+               {% csrf_token %}
+               <p>{{ hour.as_p }}</p>
+               <button type="submit">Submit</button>
+            </form>
+         </div>
+         <div class="description">
+            <h1>Hours</h1>
+            <h2>Hours[<b>bar_license</b>, <b>day</b>, open_hour, close_hour, happy_hour_start, happy_hour_end]</h2>
+            <p> {{ query_result_hour }}</p>
+         </div>
+      </div>
+      <div class="blog-card alt">
+         <div class="meta">
+            <form method = "post">
+               {% csrf_token %}
+               <p>{{ item.as_p }}</p>
+               <button type="submit">Submit</button>
+            </form>
+         </div>
+         <div class="description">
+            <h1>Items</h1>
+            <h2>Items[<b>name</b>, type, manf]</h2>
+            <p> {{ query_result_item }}</p>
+         </div>
+      </div>
+      <div class="blog-card">
+         <div class="meta">
+            <form method = "post">
+               {% csrf_token %}
+               <p>{{ item_sold.as_p }}</p>
+               <button type="submit">Submit</button>
+            </form>
+         </div>
+         <div class="description">
+            <h1>Items_Sold</h1>
+            <h2>Items_Sold[<b>transaction</b>, <b>item</b>, price]</h2>
+            <p> {{ query_result_item_sold }}</p>
+         </div>
+      </div>
+      <div class="blog-card alt">
+         <div class="meta">
+            <form method = "post">
+               {% csrf_token %}
+               <p>{{ like.as_p }}</p>
+               <button type="submit">Submit</button>
+            </form>
+         </div>
+         <div class="description">
+            <h1>Likes</h1>
+            <h2>Likes[<b>drinker</b>, <b>item</b>]</h2>
+            <p> {{ query_result_like }}</p>
+         </div>
+      </div>
+      <div class="blog-card">
+         <div class="meta">
+            <form method = "post">
+               {% csrf_token %}
+               <p>{{ sell.as_p }}</p>
+               <button type="submit">Submit</button>
+            </form>
+         </div>
+         <div class="description">
+            <h1>Sells</h1>
+            <h2>Sells[<b>bar</b>, <b>item</b>, price, <b>happy_hour</b>]</h2>
+            <p> {{ query_result_sell }}</p>
+         </div>
+      </div>
+   </body>
+</html>

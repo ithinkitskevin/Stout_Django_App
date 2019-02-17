@@ -1,0 +1,314 @@
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet" type='text/css' >
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Angular, Chart.js, and angular-chart-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+<script src="//cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}" />
+<html>
+	<head>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Permanent+Marker|Spicy+Rice" rel="stylesheet">
+
+		<title>Bar Page Title</title>
+		<script>
+            $( document ).ready(function() {
+                document.getElementById("defaultOpen").click();
+                // $("#myInput").on("keyup", function() {
+                //     var value = $(this).val().toLowerCase();
+                //     $("#myTable tr").filter(function() {
+                //     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                //     });
+                // });
+            });
+            
+			function change_tab(id)
+			{
+			  document.getElementById("page_content").innerHTML=document.getElementById(id+"_desc").innerHTML;
+			  document.getElementById("page1").className="notselected";
+			  document.getElementById("page2").className="notselected";
+			  document.getElementById("page3").className="notselected";
+			  document.getElementById(id).className="selected";
+			}
+            function openGraph(evt, tabName) {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+
+                // Show the current tab, and add an "active" class to the button that opened the tab
+                document.getElementById(tabName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+
+
+            angular.module('app', ['chart.js']);
+
+            angular.module('app')
+            .controller('MyController', function ($scope, $timeout) {
+                {% if name is not None %}
+                    $scope.labels1 = {{name | safe}};
+                    $scope.series1 = ['Top Drinkers'];
+                    $scope.data1 = {{total | safe}};
+                    console.log('object not empty');
+               {% else %}
+                    $scope.labels1 = ['N/A'];
+                    $scope.series1 = ['N/A'];
+                    $scope.data1 = [0];
+                    console.log('object empty');
+                {% endif %}
+                $scope.onClick = function (points, evt) {
+                console.log(points, evt);
+                };
+            
+            /* // Simulate async data update
+            $timeout(function () {
+            $scope.data = [
+                [28, 48, 40, 19, 86, 27, 90],
+                [65, 59, 80, 81, 56, 55, 40]
+            ];
+            }, 3000);
+            */
+            });
+            angular.module('app')
+            .controller('TopItem', function ($scope, $timeout) {
+                {% if item_name is not None %}
+                    $scope.labels2 = {{item_name | safe}};
+                    $scope.series2 = ['Top Item Sellers'];
+                    $scope.data2 = {{item_sold | safe}};
+                    console.log('object not empty 2222');
+                {% else %}
+                    $scope.labels2 = ['N/A'];
+                    $scope.series2 = ['N/A'];
+                    $scope.data2 = [0];
+                    console.log('object empty 2222');
+                {% endif %}
+                
+            });
+
+            angular.module('app')
+            .controller('TopManf', function ($scope, $timeout) {
+                {% if manf_name is not None %}
+                    $scope.labels3 = {{manf_name | safe}};
+                    $scope.series3 = ['Top Manf Sellers'];
+                    $scope.data3 = {{manf_sold | safe}};
+               {% else %}
+                    $scope.labels3 = ['N/A'];
+                    $scope.series3 = ['N/A'];
+                    $scope.data3 = [0];
+                {% endif %}
+                $scope.onClick = function (points, evt) {
+                console.log(points, evt);
+                };
+            });
+
+            angular.module('app')
+            .controller('WeekSold', function ($scope, $timeout) {
+                {% if day is not None %}
+                    $scope.labels4 = {{day | safe}};
+                    $scope.series4 = ['Sales Per Weekday'];
+                    $scope.data4 = {{day_sold | safe}};
+               {% else %}
+                    $scope.labels4 = ['N/A'];
+                    $scope.series4 = ['N/A'];
+                    $scope.data4 = [0];
+                {% endif %}
+                $scope.onClick = function (points, evt) {
+                console.log(points, evt);
+                };
+            });
+
+            angular.module('app')
+            .controller('DaySold', function ($scope, $timeout) {
+                {% if hour is not None %}
+                    $scope.labels5 = {{hour | safe}};
+                    $scope.series5 = ['Sales Per Hour'];
+                    $scope.data5 = {{hour_sold | safe}};
+               {% else %}
+                    $scope.labels5 = ['N/A'];
+                    $scope.series5 = ['N/A'];
+                    $scope.data5 = [0];
+                {% endif %}
+                $scope.onClick = function (points, evt) {
+                console.log(points, evt);
+                };
+            });
+
+            angular.element(document).ready(function(){
+                angular.bootstrap(document, ['app']);
+            });
+		</script>
+	</head>
+	<body ng-app='app'>
+        <nav class = "navbar navbar-inverse" role="navigation">
+                <div class="navbar-collapse collapse">
+                    <div class="navbar-header">
+                        <img src="{% static 'images/beer.png' %}" class="navBeer"">
+                        <a class = "navbar-brand">Stouts</a>
+                    </div>
+                    <form name="{{ form.form_name }}" method = "post" action="." class="navbar-form navbar-left" autocomplete="off">
+                        <div class="form-group">
+                            {% csrf_token %}
+                            <!-- {% for field in form %}
+                                {{ field }}
+                            {% endfor %} -->
+                            {% for field in form %}
+                                {{field}}
+                            {% endfor %}
+                            <datalist id="barNames">
+                                {% for bar in bars %}
+                                    <option value="{{bar}}"></option>
+                                {% endfor %}
+                            </datalist>
+                        </div>
+
+                        <button type="submit" class="nav-link btn btn-info ">Submit</button>
+                    </form> 
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                        
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href = '{% url "homeView" %}'>Home</a>-->
+<!--                        </li>-->
+                        <li class="nav-item">
+                            <a class="nav-link" href = '{% url "barView" %}'>Bar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href = '{% url "beerView" %}'>Beer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href = '{% url "drinkerView" %}'>Drinker</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href = '{% url "modView" %}'>Modification</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href = '{% url "queryView" %}'>Query</a>
+                        </li>
+                    </ul>
+                    
+                </div>
+        </nav>
+        <div class="container-fluid search">
+            <div class="row" id="graphs">
+                <div class="col-sm-1" style = "width: 12.5%;"></div>
+                <div class="col-sm-10" style = "width: 75%;">
+                    <div class="row barTitle">
+                            <div class="col-sm-12">
+                                <h1>Bar Information: {{bar_name}}</h1>
+                            </div>
+                    </div>
+                    {% if form.errors %}
+                        <div class="row barTitle errors">
+                            <div class="col-sm-4">                       
+                                {% for field in form %}
+                                    {{field.errors}}
+                                {% endfor %}
+                            </div>
+                            <div class="col-sm-8">
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if not_found %}
+                        <div class="alert alert-danger" role="alert">
+                            <h4 class="alert-heading">Oops!</h4>
+                            <hr>
+                            <p class="mb-0" >The bar you entered does not exist in our database.</p>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <button class="btn btn-primary btn-lg btn-block" onclick="openGraph(event, 'spenders')" id="defaultOpen">Top Spenders</button>
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-primary btn-lg btn-block" onclick="openGraph(event, 'popular_items')">Popular Items</button>
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-primary btn-lg btn-block" onclick="openGraph(event, 'popular_manf')">Popular Manufacturers</button>
+                        </div>
+                    </div>
+
+                    <div class="row time">
+                            <div class="col-sm-6">
+                                <button class="btn btn-success btn-lg btn-block" onclick="openGraph(event, 'day_sales')" >Daily Sales</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-success btn-lg btn-block" onclick="openGraph(event, 'week_sales')">Weekly Sales</button>
+                            </div>
+                    </div>
+                    <div class="row time">
+                            <div class="col-sm-12">
+                                <button class="btn btn-warning btn-lg btn-block" onclick="openGraph(event, 'transaction')">Enter Transaction</button>
+                            </div>
+                    </div>
+                
+                    <div id="spenders" class="tabcontent">
+                        <h3>Top Spenders</h3>
+                        <div ng-controller="MyController">
+                            <canvas id="bar1" class="chart chart-bar" chart-data="data1" chart-labels="labels1" chart-series="series1" chart-options='{scales: { yAxes: [{ ticks: { beginAtZero: true }}]}}'></canvas>
+                        </div>
+                    </div>
+                    
+                    <div id="popular_items" class="tabcontent">
+                        <h3>Most Popular Items</h3>
+                        <div ng-controller="TopItem">
+                                <canvas id="bar2" class="chart chart-bar" chart-data="data2" chart-labels="labels2" chart-series="series2" chart-options='{scales: { yAxes: [{ ticks: { beginAtZero: true }}]}}'></canvas>
+                        </div>
+                    </div>
+                    
+                    <div id="popular_manf" class="tabcontent">
+                        <h3>Most Popular Manufacturers</h3>
+                        <div ng-controller="TopManf">
+                                <canvas id="bar3" class="chart chart-bar" chart-data="data3" chart-labels="labels3" chart-series="series3" chart-options='{scales: { yAxes: [{ ticks: { beginAtZero: true }}]}}'></canvas>
+                        </div> 
+                    </div>
+
+                    <div id="week_sales" class="tabcontent">
+                            <h3>Sales per Weekday</h3>
+                            <div ng-controller="WeekSold">
+                                    <canvas id="bar4" class="chart chart-bar" chart-data="data4" chart-labels="labels4" chart-series="series4" chart-options='{scales: { yAxes: [{ ticks: { beginAtZero: true }}]}}'></canvas>
+                            </div> 
+                    </div>
+
+                    <div id="day_sales" class="tabcontent">
+                            <h3>Sales per Hour</h3>
+                            <div ng-controller="DaySold">
+                                    <canvas id="bar5" class="chart chart-bar" chart-data="data5" chart-labels="labels5" chart-series="series5" chart-options='{scales: { yAxes: [{ ticks: { beginAtZero: true }}]}}'></canvas>
+                            </div> 
+                    </div>
+                    <div id="transaction" class="tabcontent">
+                            <h3>Enter a Transaction</h3>
+                            {% if transaction_form %}
+                                <form name="{{ form.form_name }}" method = "post" action="." class="navbar-form navbar-left" autocomplete="off">
+                                    <div class="form-group">
+                                        {% csrf_token %}
+                                        {% for field in transaction_form %}
+                                            {{field}}
+                                        {% endfor %}
+                                    </div>
+                                    <button type="submit" class="nav-link btn btn-info">Submit</button>
+                                </form>
+                            {% endif %}
+                            
+                        </div>
+
+                </div>
+                <div class="col-sm-1" style = "width: 12.5%;"></div>
+            </div>
+        </div>
+	</body>
+</html>

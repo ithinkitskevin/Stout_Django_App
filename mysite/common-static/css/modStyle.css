@@ -1,0 +1,118 @@
+body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background: whitesmoke;
+  }
+
+html{
+  overflow-x:hidden;
+}
+
+.navBeer{
+  margin-left: 2vh;
+  width: 6vh ;
+  float: left;
+}
+.navbar-brand{
+  font-family: 'Permanent Marker', cursive;
+  font-size: 2em;
+}
+
+img{
+  position:relative;
+  display: inline-block;
+}
+
+.container-fluid{
+    background: black;
+}
+
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem auto;
+    box-shadow: 0 3px 7px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.6%;
+    background: #bcd4ec;
+    line-height: 1.4;
+    font-family: sans-serif;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 0;
+    height: 42vh;
+    width: 80vw;
+  }
+
+  .blog-card .meta {
+    position: relative;
+    z-index: 0;
+    color: black;
+    background: #DDEEFF;
+    height: 100vh;
+  }
+  .blog-card .description {
+    padding: 1rem;
+    background: #bcd4ec;
+    position: relative;
+    z-index: 1;
+    overflow: scroll;
+  }
+  .blog-card .description h1,
+  .blog-card .description h2 {
+    font-family: Poppins, sans-serif;
+  }
+  .blog-card .description h1 {
+    line-height: 1;
+    margin: 0;
+    font-size: 1.7rem;
+  }
+  .blog-card .description h2 {
+    font-size: 1rem;
+    font-weight: 300;
+    color: black;
+    margin-top: 5px;
+  }
+  
+  .blog-card p {
+    position: relative;
+    margin: 1rem 0 0;
+  }
+  
+  @media (min-width: 640px) {
+    .blog-card {
+      flex-direction: row;
+    }
+    .blog-card .meta {
+      flex-basis: 40%;
+    }
+    .blog-card .description {
+      flex-basis: 60%;
+    }
+    .blog-card .description:before {
+      content: "";
+      background: #bcd4ec;
+      width: 30px;
+      position: absolute;
+      left: -10px;
+      top: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+    .blog-card.alt {
+      flex-direction: row-reverse;
+    }
+   
+    .blog-card.alt .description:before {
+      content: "";
+      background: #bcd4ec;
+      width: 30px;
+      position: absolute;
+      left: -10px;
+      top: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+  }
+  

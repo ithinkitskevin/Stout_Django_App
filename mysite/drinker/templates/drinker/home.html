@@ -1,0 +1,191 @@
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet" type='text/css' >
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!-- Angular, Chart.js, and angular-chart-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+<script src="//cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}" />
+<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Montserrat|Permanent+Marker|Spicy+Rice" rel="stylesheet">
+		<title>Drinker Page Title</title>
+		<script>
+			$( document ).ready(function() {
+			    document.getElementById("defaultOpen").click();
+				$(".transaction").click(function(){
+					$(".transaction").removeClass("selected");
+					$(this).addClass("selected");
+					var transaction = $(this).attr("t-id");
+					$(".items").css('display','none');
+					$("table[t-id='" + transaction +"']").css('display','inline');     
+				});
+			});
+			
+			function change_tab(id)
+			{
+			 document.getElementById("page_content").innerHTML=document.getElementById(id+"_desc").innerHTML;
+			 document.getElementById("page1").className="notselected";
+			 document.getElementById("page2").className="notselected";
+			 document.getElementById("page3").className="notselected";
+			 document.getElementById(id).className="selected";
+			}
+			
+			function openGraph(evt, tabName) {
+			   // Declare all variables
+			   var i, tabcontent, tablinks;
+			
+			   // Get all elements with class="tabcontent" and hide them
+			   tabcontent = document.getElementsByClassName("tabcontent");
+			   for (i = 0; i < tabcontent.length; i++) {
+			       tabcontent[i].style.display = "none";
+			   }
+			
+			   // Get all elements with class="tablinks" and remove the class "active"
+			   tablinks = document.getElementsByClassName("tablinks");
+			   for (i = 0; i < tablinks.length; i++) {
+			       tablinks[i].className = tablinks[i].className.replace(" active", "");
+			   }
+			
+			   // Show the current tab, and add an "active" class to the button that opened the tab
+			   document.getElementById(tabName).style.display = "block";
+			   evt.currentTarget.className += " active";
+			}
+			
+			
+			angular.module('app', ['chart.js']);
+			
+			angular.module('app')
+			.controller('MyController', function ($scope, $timeout) {
+			   {% if most_items_y is None or most_items_x is None %}
+			       $scope.labels = ['n/a'];
+			       $scope.data = ['n/a'];
+			   {% else %}
+			       $scope.labels = {{most_items_y|safe}};
+			       $scope.data = {{most_items_x|safe}};
+			   {% endif %}
+			   
+			   $scope.onClick = function (points, evt) {
+			   console.log(points, evt);
+			   };
+			});
+			
+			angular.module('app')
+			.controller('MyController1', function ($scope, $timeout) {
+			   {% if date_time_data is None or date_time_label is None %}
+			       $scope.labels = ['n/a'];
+			       $scope.data = ['n/a'];
+			   {% else %}
+			       $scope.labels = {{date_time_label|safe}};
+			       $scope.data = {{date_time_data|safe}};
+			   {% endif %}
+			   
+			   $scope.onClick = function (points, evt) {
+			   console.log(points, evt);
+			   };
+			});
+			
+			
+			angular.module('app')
+			.controller('MyController2', function ($scope, $timeout) {
+			   {% if week_time_label is None or week_time_data is None %}
+			       $scope.labels = ['n/a'];
+			       $scope.data = ['n/a'];
+			   {% else %}
+			       $scope.labels = {{week_time_label|safe}};
+			       $scope.data = {{week_time_data|safe}};
+			   {% endif %}
+			   
+			   $scope.onClick = function (points, evt) {
+			   console.log(points, evt);
+			   };
+			});
+			
+			angular.module('app')
+			.controller('MyController3', function ($scope, $timeout) {
+			   {% if month_time_data is None or month_time_label is None %}
+			       $scope.labels = ['n/a'];
+			       $scope.data = ['n/a'];
+			   {% else %}
+			       $scope.labels = {{month_time_label|safe}};
+			       $scope.data = {{month_time_data|safe}};
+			   {% endif %}
+			   
+			   $scope.onClick = function (points, evt) {
+			   console.log(points, evt);
+			   };
+			});
+			
+			angular.element(document).ready(function(){
+			   angular.bootstrap(document, ['app']);
+			});
+			
+		</script>
+	</head>
+	<body>
+			<nav class = "navbar navbar-inverse" role="navigation">
+					<div class="navbar-collapse collapse">
+						<div class="navbar-header">
+							<img src="{% static 'images/beer.png' %}" class="navBeer"">
+							<a class = "navbar-brand">Stouts</a>
+						</div>
+						
+						<ul class="nav navbar-nav navbar-right">
+							
+							<li class="nav-item">
+									<a class="nav-link" href = '{% url "homeView" %}'>Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "barView" %}'>Bar</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "beerView" %}'>Beer</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "drinkerView" %}'>Drinker</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "modView" %}'>Modification</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "queryView" %}'>Query</a>
+							</li>
+						</ul>
+						
+					</div>
+			</nav>
+		<div class="container-fluid" >
+            <div class="row" id="graphs">
+                <div class="col-sm-1" style = "width: 12.5%;"></div>
+                <div class="col-sm-10" style = "width: 75%;">
+                        <div class="row barTitle">
+                            <div class="col-sm-7">
+                                <h1 class = "navbar-brand" style="margin-left:0; padding-left: 0; font-size: 4em;">Stouts Stats</h1>
+                            </div>
+                            <div class="col-sm-5">
+                            </div>
+                        </div>
+						<div class="row">
+							<div class="col-sm-12">
+                                <h2>Welcome!</h2>
+                                <hr>
+                                <h3>Bar</h3>
+                                <hr>
+                                <h3>Beer</h3>
+                                <hr>
+                                <h3>Drinker</h3>
+								
+							</div>
+						</div>
+						
+					
+                </div>
+                <div class="col-sm-1" style = "width: 12.5%;"></div>
+            </div>    
+		</div>
+			
+		
+	</body>
+</html>

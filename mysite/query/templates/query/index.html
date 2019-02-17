@@ -1,0 +1,58 @@
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+<link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css' />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/queryStyle.css' %}" />
+<html>
+   <head>
+      <title>Query Page Title</title>
+   </head>
+   <body>
+        <nav class = "navbar navbar-inverse" >
+                <div class="navbar-header">
+                    <img src="{% static 'images/beer.png' %}" class="navBeer"">
+                    <a class = "navbar-brand">Stouts</a>
+                </div>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    <li><a href = '{% url "barView" %}'>Bar</a></li>
+                    <li><a href = '{% url "beerView" %}'>Beer</a></li>
+                    <li><a href = '{% url "drinkerView" %}'>Drinker</a></li>
+                    <li><a href = '{% url "modView" %}'>Modification</a></li>
+                    <li><a href = '{% url "queryView" %}'>Query</a></li>
+                </ul>
+            </nav>
+
+      <div class="split-container">
+         <div class="split-item split-left">
+            <form method = "post">
+               {% csrf_token %}
+               {{ form }}
+               <button type="submit">Submit</button>
+            </form>
+            <div class = "description">
+
+                    <h5>Drinkers[<b>d_id</b>, first_name, last_name, phone_number, street, city, state, zip]</h5>
+                    <h5>Transactions[<b>t_id</b>, date, time, weekday, total_price, tip, d_id, license]</h5>
+                    <h5>Bars[name, <b>license</b>, phone_number, street, city, state, zip]</h5>
+                    <h5>Frequents[<b>drinker</b>, <b>bar</b>]</h5>
+                    <h5>Hours[<b>bar_license</b>, <b>day</b>, open_hour, close_hour, happy_hour_start, happy_hour_end]</h5>
+                    <h5>Items[<b>name</b>, type, manf]</h5>
+                    <h5>Items_Sold[<b>transaction</b>, <b>item</b>, price]</h5>
+                    <h5>Likes[<b>drinker</b>, <b>item</b>]</h5>
+                    <h5>Sells[<b>bar</b>, <b>item</b>, price, <b>happy_hour</b>]</h5>
+
+            </div>
+         </div>
+         <div class="split-item split-right">
+             <div class = "query_box">
+            <h2>{{ query }}</h2>
+            {{ query_result }}
+        </div>
+         </div>
+      </div>
+   </body>
+</html>
+

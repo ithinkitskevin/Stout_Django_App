@@ -1,0 +1,304 @@
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet" type='text/css' >
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!-- Angular, Chart.js, and angular-chart-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+<script src="//cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}" />
+<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Montserrat|Permanent+Marker|Spicy+Rice" rel="stylesheet">
+		<title>Drinker Page Title</title>
+		<script>
+			$( document ).ready(function() {
+			    document.getElementById("defaultOpen").click();
+				$(".transaction").click(function(){
+					$(".transaction").removeClass("selected");
+					$(this).addClass("selected");
+					var transaction = $(this).attr("t-id");
+					$(".items").css('display','none');
+					$("table[t-id='" + transaction +"']").css('display','inline');     
+				});
+			});
+			
+			function change_tab(id)
+			{
+			 document.getElementById("page_content").innerHTML=document.getElementById(id+"_desc").innerHTML;
+			 document.getElementById("page1").className="notselected";
+			 document.getElementById("page2").className="notselected";
+			 document.getElementById("page3").className="notselected";
+			 document.getElementById(id).className="selected";
+			}
+			
+			function openGraph(evt, tabName) {
+			   // Declare all variables
+			   var i, tabcontent, tablinks;
+			
+			   // Get all elements with class="tabcontent" and hide them
+			   tabcontent = document.getElementsByClassName("tabcontent");
+			   for (i = 0; i < tabcontent.length; i++) {
+			       tabcontent[i].style.display = "none";
+			   }
+			
+			   // Get all elements with class="tablinks" and remove the class "active"
+			   tablinks = document.getElementsByClassName("tablinks");
+			   for (i = 0; i < tablinks.length; i++) {
+			       tablinks[i].className = tablinks[i].className.replace(" active", "");
+			   }
+			
+			   // Show the current tab, and add an "active" class to the button that opened the tab
+			   document.getElementById(tabName).style.display = "block";
+			   evt.currentTarget.className += " active";
+			}
+			
+			
+			angular.module('app', ['chart.js']);
+			
+			angular.module('app')
+			.controller('MyController', function ($scope, $timeout) {
+			   {% if most_items_y is None or most_items_x is None %}
+			       $scope.labels = ['n/a'];
+			       $scope.data = ['n/a'];
+			   {% else %}
+			       $scope.labels = {{most_items_y|safe}};
+			       $scope.data = {{most_items_x|safe}};
+			   {% endif %}
+			   
+			   $scope.onClick = function (points, evt) {
+			   console.log(points, evt);
+			   };
+			});
+			
+			angular.module('app')
+			.controller('MyController1', function ($scope, $timeout) {
+			   {% if date_time_data is None or date_time_label is None %}
+			       $scope.labels = ['n/a'];
+			       $scope.data = ['n/a'];
+			   {% else %}
+			       $scope.labels = {{date_time_label|safe}};
+			       $scope.data = {{date_time_data|safe}};
+			   {% endif %}
+			   
+			   $scope.onClick = function (points, evt) {
+			   console.log(points, evt);
+			   };
+			});
+			
+			
+			angular.module('app')
+			.controller('MyController2', function ($scope, $timeout) {
+			   {% if week_time_label is None or week_time_data is None %}
+			       $scope.labels = ['n/a'];
+			       $scope.data = ['n/a'];
+			   {% else %}
+			       $scope.labels = {{week_time_label|safe}};
+			       $scope.data = {{week_time_data|safe}};
+			   {% endif %}
+			   
+			   $scope.onClick = function (points, evt) {
+			   console.log(points, evt);
+			   };
+			});
+			
+			angular.module('app')
+			.controller('MyController3', function ($scope, $timeout) {
+			   {% if month_time_data is None or month_time_label is None %}
+			       $scope.labels = ['n/a'];
+			       $scope.data = ['n/a'];
+			   {% else %}
+			       $scope.labels = {{month_time_label|safe}};
+			       $scope.data = {{month_time_data|safe}};
+			   {% endif %}
+			   
+			   $scope.onClick = function (points, evt) {
+			   console.log(points, evt);
+			   };
+			});
+			
+			angular.element(document).ready(function(){
+			   angular.bootstrap(document, ['app']);
+			});
+			
+		</script>
+	</head>
+	<body>
+			<nav class = "navbar navbar-inverse" role="navigation">
+					<div class="navbar-collapse collapse">
+						<div class="navbar-header">
+							<img src="{% static 'images/beer.png' %}" class="navBeer"">
+							<a class = "navbar-brand">Stouts</a>
+						</div>
+						<form name="{{ form.form_name }}" method = "post" action="." class="navbar-form navbar-left" autocomplete="off">
+							<div class="form-group">
+								{% csrf_token %}
+								<!-- {% for field in form %}
+									{{ field }}
+								{% endfor %} -->
+								{% for field in form %}
+									{{field}}
+								{% endfor %}
+								<datalist id="drinkerNames">
+									{% for drinker in drinkers %}
+										<option value="{{drinker}}"></option>
+									{% endfor %}
+								</datalist>
+							</div>
+	
+							<button type="submit" class="nav-link btn btn-info btn--outline">Submit</button>
+						</form> 
+						
+						<ul class="nav navbar-nav navbar-right">
+							
+<!--                            <li class="nav-item">-->
+<!--                                    <a class="nav-link" href = '{% url "homeView" %}'>Home</a>-->
+<!--                            </li>-->
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "barView" %}'>Bar</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "beerView" %}'>Beer</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "drinkerView" %}'>Drinker</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "modView" %}'>Modification</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href = '{% url "queryView" %}'>Query</a>
+							</li>
+						</ul>
+						
+					</div>
+			</nav>
+		<div class="container-fluid" >
+            <div class="row" id="graphs">
+                <div class="col-sm-1" style = "width: 12.5%;"></div>
+                <div class="col-sm-10" style = "width: 75%;">
+                        <div class="row barTitle">
+                            <div class="col-sm-7">
+                                <h1>Drinker Information: {{name}}</h1>
+                            </div>
+                            <div class="col-sm-5">
+                            </div>
+						</div>
+						{% if not_found %}
+							<div class="alert alert-danger" role="alert">
+								<h4 class="alert-heading">Oops!</h4>
+								<hr>
+								<p class="mb-0" >The item you entered does not exist in our database.</p>
+							</div>
+                    	{% endif %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-lg btn-block" onclick="openGraph(event, 'transaction')" id="defaultOpen">Transaction</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-lg btn-block" onclick="openGraph(event, 'ordered_items')">Most Ordered Items</button>
+                            </div>
+                        </div>
+                        <div class="row time">
+                                <div class="col-sm-4">
+                                    <button class="btn btn-success btn-lg btn-block" onclick="openGraph(event, 'money_spent_date')">Money Spent in Dates</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button class="btn btn-success btn-lg btn-block" onclick="openGraph(event, 'money_spent_week')">Money Spent in Weeks</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button class="btn btn-success btn-lg btn-block" onclick="openGraph(event, 'money_spent_month')">Money Spent in Months</button>
+                                </div>
+                            </div>
+						<div class="row">
+							<div class="col-sm-12">
+								<!-- Tab content -->
+								<div id="transaction" class="tabcontent">
+									<h2>Transaction</h2>
+									<h5>Grouped by Bar and ordered by Date</h5>
+									<hr>
+									{% for bar, transaction_list in transactions.items %}
+										<div class="row">
+											<div class="col-sm-12">
+												<h3>{{bar}}</h3>
+												<table class="table">
+													<caption>List of transactions at {{bar}}</caption>
+													<thead>
+														<tr>
+															<th scope="col">Date</th>
+															<th scope="col">Total</th>
+															<th scope="col">Tip</th>
+														</tr>
+													</thead>
+													<tbody>
+														{% for transaction in transaction_list %}
+															<tr class="transaction" t-id ="{{transaction.t_id}}"">
+																<td>{{transaction.date}}</td>
+																<td>{{transaction.total_price}}</td>
+																<td>{{transaction.tip}}</td>
+															</tr>
+															
+																	<table class="table items" t-id="{{transaction.t_id}}" style = "width: 50%; float: right; display: none;">
+																		<caption></caption>
+																		<thead>
+																			<tr>
+																				<th scope="col">Item</th>
+																				<th scope="col">Price</th>
+																			</tr>
+																		</thead>
+																		{% for transaction_item in items_on_transaction|get_item:transaction.t_id %}
+																			<tr>
+																				<td>{{transaction_item.item}}</td>
+																				<td>{{transaction_item.price}}</td>
+																			</tr>
+																		{% endfor %}
+																	</table>
+														{% endfor %}
+													</tbody>
+												</table>
+											</div>
+										</div>
+									{% endfor %}
+									
+								</div>
+								<div id="ordered_items" class="tabcontent">
+									<h3>Ordered Items</h3>
+									<h5>Items ordered the most</h5>
+									<div ng-controller="MyController">
+										<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-options='{scales: { yAxes: [{ ticks: { beginAtZero: true }}]}}'></canvas>
+									</div>
+								</div>
+								<div id="money_spent_date" class="tabcontent">
+									<h3>Money Spent</h3>
+									<h5>Money Spent grouped by Date</h5>
+									<div ng-controller="MyController1">
+										<canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-options='{scales: { yAxes: [{ ticks: { beginAtZero: true }}]}}'></canvas>
+									</div>
+								</div>
+								<div id="money_spent_week" class="tabcontent">
+									<h3>Money Spent</h3>
+									<h5>Money Spent grouped by Week</h5>
+									<div ng-controller="MyController2">
+										<canvas id="bar3" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-options='{scales: { yAxes: [{ ticks: { beginAtZero: true }}]}}'></canvas>
+									</div>
+								</div>
+								<div id="money_spent_month" class="tabcontent">
+									<h3>Money Spent</h3>
+									<h5>Money Spent grouped by Month</h5>
+									<div ng-controller="MyController3">
+										<canvas id="bar3" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" chart-options='{scales: { yAxes: [{ ticks: { beginAtZero: true }}]}}'></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					
+                </div>
+                <div class="col-sm-1" style = "width: 12.5%;"></div>
+            </div>    
+		</div>
+			
+		
+	</body>
+</html>
